@@ -52,8 +52,11 @@ export default {
         include: ['node_modules/react-dates/lib/css/*.css'],
         // extract: 'dist/my-custom-file-name.css'
     }),
-    less(),
-    css(),
+    less({
+      insert: true,
+      output: './lib/bundle.css'
+    }),
+    // css(),
     babel({
       exclude: "node_modules/**",
       extensions: [...DEFAULT_EXTENSIONS, ".ts", ".tsx"],

@@ -75,12 +75,12 @@ function ReactDateRangePicker({
   return (
     <DateRangePicker
       block
-      appendToBody
-      showClearDates
-      reopenPickerOnClearDates
+      // appendToBody
+      // showClearDates
+      // reopenPickerOnClearDates
       hideKeyboardShortcutsPanel
       noBorder
-      numberOfMonths={1}
+      numberOfMonths={2}
       startDate={timeRangeObj.startDate ?? null}
       startDateId={`${name}_start_date_id`}
       endDate={timeRangeObj.endDate ?? null}
@@ -90,7 +90,6 @@ function ReactDateRangePicker({
       onFocusChange={(focusedInput: FocusedInputShape | null) =>
         setFocusedInput(focusedInput)
       }
-      // appendToBody
       isOutsideRange={() => false}
       minimumNights={0}
     />
@@ -167,6 +166,13 @@ export default function FieldDateRangePicker({
           component="fieldset"
           error={Boolean(errors[name])}
           fullWidth
+          disabled={DisabledMemo}
+          style={{
+            border: "1px solid rgba(0, 0, 0, 0.23)",
+            boxSizing: "border-box",
+            borderRadius: "4px",
+            padding: "0 8px",
+          }}
           // {...otherProps}
         >
           {/* @ts-ignore[1] */}
