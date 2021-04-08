@@ -27,8 +27,8 @@ interface InputProps
   disabled?: boolean | ((record: Object, actionType?: string) => boolean);
   autoFocus?: boolean;
   registerConfig?: RegisterType;
-  affectFields?: string[]; //todo
-  dependOnFields?: string[]; // todo
+  affectFields?: string[];
+  dependOnFields?: string[];
 }
 
 export default function LiteFieldText({
