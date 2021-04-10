@@ -52,7 +52,7 @@ export default function FieldAutoInput({
   name,
   label,
   multiple = false,
-  freeSolo = false,
+  freeSolo = true,
   optionsData,
   defaultValue,
   disabled,
