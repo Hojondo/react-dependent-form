@@ -21,7 +21,7 @@ interface DateTimePickerProps
   disabled?: boolean | ((record: Object, actionType?: string) => boolean);
   autoFocus?: boolean;
   registerConfig?: RegisterType;
-  affectFields?: string[];
+  clearFieldsOnChange?: string[];
   dependOnFields?: string[];
 }
 
@@ -34,7 +34,7 @@ export default function FieldDateTimePicker({
   placeholder = 'Search',
   registerConfig,
   tips,
-  affectFields,
+  clearFieldsOnChange,
   dependOnFields,
   ...otherProps // like step ...etc
 }: DateTimePickerProps) {
@@ -121,8 +121,8 @@ export default function FieldDateTimePicker({
               name,
               moment.utc(e.target.value).format('YYYY-MM-DDTHH:mm'),
             );
-            if (affectFields && affectFields instanceof Array) {
-              affectFields.forEach(f => {
+            if (clearFieldsOnChange && clearFieldsOnChange instanceof Array) {
+              clearFieldsOnChange.forEach(f => {
                 setValue(f, null);
               });
             }

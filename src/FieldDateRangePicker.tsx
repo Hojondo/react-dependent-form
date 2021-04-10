@@ -28,20 +28,20 @@ interface DateTimeRangePickerProps
   disabled?: boolean | ((record: Object, actionType?: string) => boolean);
   autoFocus?: boolean;
   registerConfig?: RegisterType;
-  affectFields?: string[];
+  clearFieldsOnChange?: string[];
   dependOnFields?: string[];
 }
 
 interface DateRangeProps {
   timeRangeObj: TimeRangeFormat;
   name: string;
-  affectFields?: string[];
+  clearFieldsOnChange?: string[];
 }
 
 function ReactDateRangePicker({
   timeRangeObj,
   name,
-  affectFields,
+  clearFieldsOnChange,
 }: DateRangeProps) {
   const { setValue, trigger } = useContext(formContext);
   const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>(
@@ -65,8 +65,8 @@ function ReactDateRangePicker({
             .set({ hour: 23, minute: 59, second: 59 })
         : endDate,
     });
-    if (affectFields && affectFields instanceof Array) {
-      affectFields.forEach((f) => {
+    if (clearFieldsOnChange && clearFieldsOnChange instanceof Array) {
+      clearFieldsOnChange.forEach((f) => {
         setValue(f, null);
       });
     }
@@ -103,7 +103,7 @@ export default function FieldDateRangePicker({
   defaultValue,
   registerConfig,
   tips,
-  affectFields,
+  clearFieldsOnChange,
   dependOnFields,
   ...otherProps
 }: DateTimeRangePickerProps) {
@@ -180,7 +180,7 @@ export default function FieldDateRangePicker({
           <ReactDateRangePicker
             timeRangeObj={props.value}
             name={name}
-            affectFields={affectFields}
+            clearFieldsOnChange={clearFieldsOnChange}
           />
           <FormHelperText>
             <span style={{ position: "absolute" }}>

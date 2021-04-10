@@ -27,7 +27,7 @@ interface InputProps
   disabled?: boolean | ((record: Object, actionType?: string) => boolean);
   autoFocus?: boolean;
   registerConfig?: RegisterType;
-  affectFields?: string[];
+  clearFieldsOnChange?: string[];
   dependOnFields?: string[];
 }
 
@@ -44,7 +44,7 @@ export default function LiteFieldText({
     required: false,
   },
   tips = "",
-  affectFields,
+  clearFieldsOnChange,
   dependOnFields,
   ...otherProps
 }: InputProps) {
@@ -116,8 +116,8 @@ export default function LiteFieldText({
           autoFocus={autoFocus}
           onChange={(v) => {
             setValue(name, v.target.value);
-            if (affectFields && affectFields instanceof Array) {
-              affectFields.forEach((f) => {
+            if (clearFieldsOnChange && clearFieldsOnChange instanceof Array) {
+              clearFieldsOnChange.forEach((f) => {
                 setValue(f, null);
               });
             }

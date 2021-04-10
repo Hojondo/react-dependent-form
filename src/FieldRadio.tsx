@@ -31,7 +31,7 @@ interface RadioProps
   disabled?: boolean | ((record: Object, actionType?: string) => boolean);
   autoFocus?: boolean; //todo
   registerConfig?: RegisterType;
-  affectFields?: string[];
+  clearFieldsOnChange?: string[];
   dependOnFields?: string[];
 }
 
@@ -52,7 +52,7 @@ export default function FieldRadio({
   disabled = false,
   autoFocus = false,
   registerConfig,
-  affectFields,
+  clearFieldsOnChange,
   dependOnFields,
   ...otherProps
 }: RadioProps) {
@@ -176,8 +176,8 @@ export default function FieldRadio({
                         if (_.isEqual(compatibleValueFn(props.value), o.value))
                           setValue(name, '');
                         else setValue(name, o.value);
-                        if (affectFields && affectFields instanceof Array) {
-                          affectFields.forEach(f => {
+                        if (clearFieldsOnChange && clearFieldsOnChange instanceof Array) {
+                          clearFieldsOnChange.forEach(f => {
                             setValue(f, null);
                           });
                         }
@@ -193,8 +193,8 @@ export default function FieldRadio({
                       /** end: support cancel radio checked */
                       // onChange={() => {
                       //   setValue(name, o.value);
-                      //   if (affectFields && affectFields instanceof Array) {
-                      //     affectFields.forEach(f => {
+                      //   if (clearFieldsOnChange && clearFieldsOnChange instanceof Array) {
+                      //     clearFieldsOnChange.forEach(f => {
                       //       setValue(f, null);
                       //     });
                       //   }

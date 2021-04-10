@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, FieldText, a } from "../index";
+import { Form, FieldText } from "../index";
 import { shallow, ShallowWrapper } from "enzyme";
 
 let wrapper: ShallowWrapper;

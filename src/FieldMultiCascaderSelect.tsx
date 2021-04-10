@@ -33,7 +33,7 @@ interface MultipleSelectProps
   disabled?: boolean | ((record: Object, actionType?: string) => boolean);
   autoFocus?: boolean;
   registerConfig?: RegisterType;
-  affectFields?: string[];
+  clearFieldsOnChange?: string[];
   dependOnFields?: string[];
 }
 
@@ -46,7 +46,7 @@ export default function FieldMultiCascaderSelect({
   optionsData,
   defaultValue,
   registerConfig,
-  affectFields,
+  clearFieldsOnChange,
   dependOnFields,
   ...otherProps
 }: MultipleSelectProps) {
@@ -131,8 +131,8 @@ export default function FieldMultiCascaderSelect({
         .filter(i => valueArray.includes(i.value))
         .map(i => i.value),
     );
-    if (affectFields && affectFields instanceof Array) {
-      affectFields.forEach(f => {
+    if (clearFieldsOnChange && clearFieldsOnChange instanceof Array) {
+      clearFieldsOnChange.forEach(f => {
         setValue(f, null);
       });
     }
