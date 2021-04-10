@@ -10,18 +10,6 @@ import { DEFAULT_EXTENSIONS } from "@babel/core";
 // rollup.config.js
 export default {
   // core
-  external: [
-    "react",
-    "lodash",
-    "@material-ui/core",
-    "@material-ui/icons",
-    "@material-ui/lab",
-    "@material-ui/core/styles",
-    "react-hook-form",
-    "react-dates",
-    "moment",
-    "shineout",
-  ],
   input: "./src/index.tsx", // required
   output: {
     // required
@@ -48,13 +36,13 @@ export default {
   plugins: [
     rollupTypescript(),
     postcss({
-        modules: true,
-        include: ['node_modules/react-dates/lib/css/*.css'],
-        // extract: 'dist/my-custom-file-name.css'
+      modules: true,
+      include: ["node_modules/react-dates/lib/css/*.css"],
+      // extract: 'dist/my-custom-file-name.css'
     }),
     less({
       insert: true,
-      output: './lib/bundle.css'
+      output: "./lib/bundle.css",
     }),
     // css(),
     babel({
@@ -62,6 +50,19 @@ export default {
       extensions: [...DEFAULT_EXTENSIONS, ".ts", ".tsx"],
     }),
     commonjs(),
+  ],
+  external: [
+    "react",
+    "react-dom",
+    "lodash",
+    "@material-ui/core",
+    "@material-ui/icons",
+    "@material-ui/lab",
+    "@material-ui/core/styles",
+    "react-hook-form",
+    "react-dates",
+    "moment",
+    "shineout",
   ],
   // onwarn,
 

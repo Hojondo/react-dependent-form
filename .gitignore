@@ -5,7 +5,12 @@
 /yarn-error.log
 /yarn.lock
 /package-lock.json
-/.idea/*
 
+# misc
 /.vscode
 /.DS_Store
+/.idea/*
+
+# testing
+/coverage
+__snapshots__

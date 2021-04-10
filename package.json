@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "build": "yarn run rollup -c",
-    "start": "yarn run rollup -c -w"
+    "start": "yarn run rollup -c -w",
+    "test": "jest"
   },
   "devDependencies": {
     "@babel/core": "^7.13.14",
@@ -19,10 +20,18 @@
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-commonjs": "^18.0.0",
+    "@types/enzyme": "^3.10.8",
+    "@types/jest": "^26.0.22",
     "@types/lodash": "^4.14.168",
     "@types/react": "^17.0.3",
     "@types/react-dates": "^21.8.1",
     "babel-plugin-external-helpers": "^6.22.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^26.6.3",
+    "jest-environment-jsdom-fifteen": "^1.0.2",
+    "jest-react-renderer": "^1.0.1",
     "react-dates": "^21.8.0",
     "react-hook-form": "^6.8.3",
     "rollup": "^2.44.0",
@@ -32,6 +41,11 @@
     "rollup-plugin-postcss": "^4.0.0",
     "rollup-plugin-typescript2": "^0.30.0",
     "shineout": "^1.6.1",
+    "ts-jest": "^26.5.4",
     "typescript": "^4.2.3"
+  },
+  "peerDependencies": {
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
   }
 }
