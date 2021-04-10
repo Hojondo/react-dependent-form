@@ -30,6 +30,7 @@ interface SelectProps
   label: string;
   optionsData: OptionDataType;
   multiple?: boolean;
+  freeSolo?: boolean;
   defaultValue?: ValueFormat;
   tips?: string;
   disabled?: boolean | ((record: Object, actionType?: string) => boolean);
@@ -51,6 +52,7 @@ export default function FieldAutoInput({
   name,
   label,
   multiple = false,
+  freeSolo = false,
   optionsData,
   defaultValue,
   disabled,
@@ -150,6 +152,7 @@ export default function FieldAutoInput({
       render={(props) => {
         return (
           <Autocomplete
+            freeSolo={freeSolo}
             multiple={multiple}
             value={props.value}
             disabled={DisabledMemo}
@@ -214,6 +217,3 @@ export default function FieldAutoInput({
     />
   );
 }
-
-// todo rename clearFieldsOnChange to clearFieldsOnChange
-// todo add freeSolo
