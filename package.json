@@ -1,13 +1,36 @@
 {
   "name": "react-dependent-form",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "lib/bundle.js",
   "license": "MIT",
+  "keywords": [
+    "react",
+    "form",
+    "react-form",
+    "react-hook",
+    "dependent",
+    "link",
+    "dependent-form",
+    "hook",
+    "typescript",
+    "validation",
+    "form-validation"
+  ],
+  "homepage": "https://github.com/Hojondo/react-dependent-form",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hojondo/react-dependent-form"
+  },
+  "author": "<hztdream@gmail.com>",
   "scripts": {
     "build": "yarn run rollup -c",
     "start": "yarn run rollup -c -w",
     "test": "jest"
   },
+  "files": [
+    "lib",
+    "lib/__tests__"
+  ],
   "devDependencies": {
     "@babel/core": "^7.13.14",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.13.8",
