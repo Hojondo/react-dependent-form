@@ -1,13 +1,16 @@
 import babel from "rollup-plugin-babel";
-import external from 'rollup-plugin-peer-deps-external';
-import resolve from '@rollup/plugin-node-resolve';
+import external from "rollup-plugin-peer-deps-external";
+import resolve from "@rollup/plugin-node-resolve";
+import { terser } from "rollup-plugin-terser";
 
 import postcss from "rollup-plugin-postcss";
+
 import less from "rollup-plugin-less";
 import commonjs from "@rollup/plugin-commonjs";
 
 import rollupTypescript from "rollup-plugin-typescript2";
 import { DEFAULT_EXTENSIONS } from "@babel/core";
+const postcssUrl = require("postcss-url");
 
 // rollup.config.js
 export default {
@@ -26,7 +29,7 @@ export default {
     // footer,
     // intro,
     // outro,
-    sourcemap: true,
+    sourcemap: false,
     // sourcemapFile,
     // interop,
 
@@ -39,13 +42,21 @@ export default {
     external(),
     rollupTypescript(),
     postcss({
-      modules: true,
+      inject: true,
       include: ["node_modules/react-dates/lib/css/*.css"],
-      // extract: 'dist/my-custom-file-name.css'
+      extract: false,
+      minimize: true,
+      plugins: [
+        postcssUrl({
+          filter: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+          url: (asset) => `fonts/${asset.url.substr(1).split("/").pop()}`,
+        }),
+      ],
     }),
     less({
+      // include: ["node_modules/shineout/lib/styles/*.less", '**/*.less', '**/*.css'],
       insert: true,
-      output: "./lib/bundle.css",
+      output: false,
     }),
     babel({
       exclude: "node_modules/**",
@@ -53,20 +64,20 @@ export default {
     }),
     resolve(),
     commonjs(),
+    terser(),
   ],
-  // external: [
-  //   "react",
-  //   "react-dom",
-  //   "lodash",
-  //   "@material-ui/core",
-  //   "@material-ui/icons",
-  //   "@material-ui/lab",
-  //   "@material-ui/core/styles",
-  //   "react-hook-form",
-  //   "react-dates",
-  //   "moment",
-  //   "shineout",
-  // ],
+  external: [
+    "react",
+    "react-dom",
+    // "lodash",
+    // "@material-ui/core",
+    // "@material-ui/icons",
+    // "@material-ui/lab",
+    // "react-hook-form",
+    // "react-dates",
+    // "moment",
+    // "shineout",
+  ],
   // onwarn,
 
   // danger zone
