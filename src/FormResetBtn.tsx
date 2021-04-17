@@ -1,18 +1,21 @@
-import React from 'react';
-import { Button } from '@material-ui/core';
-import { useFormContext } from './FormContext';
+import React from "react";
+import { Button } from "@material-ui/core";
 
-export default function FormResetBtn({ optionFn }: { optionFn?: () => void }) {
-  const { reset, defaultValues } = useFormContext();
+interface ResetProps {
+  children?: JSX.Element;
+  resetCallBack?: () => void;
+}
+
+export default function FormResetBtn({ resetCallBack, children }: ResetProps) {
   return (
     <Button
-      key="reset"
+      type="reset"
       onClick={() => {
-        reset(defaultValues);
-        optionFn && optionFn();
+        resetCallBack && resetCallBack();
       }}
+      variant="text"
     >
-      Cancel
+      {children ? children : "Reset"}
     </Button>
   );
 }

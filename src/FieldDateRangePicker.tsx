@@ -81,9 +81,9 @@ function ReactDateRangePicker({
       hideKeyboardShortcutsPanel
       noBorder
       numberOfMonths={2}
-      startDate={timeRangeObj.startDate ?? null}
+      startDate={timeRangeObj?.startDate ?? null}
       startDateId={`${name}_start_date_id`}
-      endDate={timeRangeObj.endDate ?? null}
+      endDate={timeRangeObj?.endDate ?? null}
       endDateId={`${name}_end_date_id`}
       onDatesChange={uploadNewDate}
       focusedInput={focusedInput}

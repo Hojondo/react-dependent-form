@@ -1,7 +1,9 @@
 import babel from "rollup-plugin-babel";
+import external from 'rollup-plugin-peer-deps-external';
+import resolve from '@rollup/plugin-node-resolve';
+
 import postcss from "rollup-plugin-postcss";
 import less from "rollup-plugin-less";
-import css from "rollup-plugin-css-only";
 import commonjs from "@rollup/plugin-commonjs";
 
 import rollupTypescript from "rollup-plugin-typescript2";
@@ -34,6 +36,7 @@ export default {
     // strict
   },
   plugins: [
+    external(),
     rollupTypescript(),
     postcss({
       modules: true,
@@ -44,26 +47,26 @@ export default {
       insert: true,
       output: "./lib/bundle.css",
     }),
-    // css(),
     babel({
       exclude: "node_modules/**",
       extensions: [...DEFAULT_EXTENSIONS, ".ts", ".tsx"],
     }),
+    resolve(),
     commonjs(),
   ],
-  external: [
-    "react",
-    "react-dom",
-    "lodash",
-    "@material-ui/core",
-    "@material-ui/icons",
-    "@material-ui/lab",
-    "@material-ui/core/styles",
-    "react-hook-form",
-    "react-dates",
-    "moment",
-    "shineout",
-  ],
+  // external: [
+  //   "react",
+  //   "react-dom",
+  //   "lodash",
+  //   "@material-ui/core",
+  //   "@material-ui/icons",
+  //   "@material-ui/lab",
+  //   "@material-ui/core/styles",
+  //   "react-hook-form",
+  //   "react-dates",
+  //   "moment",
+  //   "shineout",
+  // ],
   // onwarn,
 
   // danger zone

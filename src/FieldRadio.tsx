@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import _ from 'lodash';
+import React, { useState, useEffect, useMemo, useCallback } from "react";
+import _ from "lodash";
 import {
   Grid,
   Radio,
@@ -7,18 +7,18 @@ import {
   FormControl,
   FormLabel,
   FormHelperText,
-} from '@material-ui/core';
-import { Controller } from 'react-hook-form';
+} from "@material-ui/core";
+import { Controller } from "react-hook-form";
 
-import { useFormContext } from './FormContext';
-import TipLabel from './components/TipLabel';
+import { useFormContext } from "./FormContext";
+import TipLabel from "./components/TipLabel";
 
 import {
   OptionDataObj,
   OptionDataType,
   RegisterType,
   ExcludeKeys,
-} from './types';
+} from "./types";
 
 type ValueFormat = string | number | boolean | readonly string[] | undefined;
 interface RadioProps
@@ -36,11 +36,11 @@ interface RadioProps
 }
 
 const CreateCompatibleValueFC = (optionsObj: Array<OptionDataObj>) => (
-  val: string | OptionDataObj | boolean,
+  val: string | OptionDataObj | boolean
 ) => {
-  return typeof val === 'string' || typeof val === 'boolean'
+  return typeof val === "string" || typeof val === "boolean"
     ? val
-    : val && optionsObj.find(o => o.value === val.value)?.value;
+    : val && optionsObj.find((o) => o.value === val.value)?.value;
 };
 
 export default function FieldRadio({
@@ -73,8 +73,8 @@ export default function FieldRadio({
 
   // *get options data depend on special fields' value
   const dependOnFieldsArray = useMemo(
-    () => (dependOnFields ? dependOnFields.map(f => watch()[f]) : null),
-    [watch()],
+    () => (dependOnFields ? dependOnFields.map((f) => watch()[f]) : null),
+    [watch()]
   );
 
   const [optionsDataState, setOptionsDataState] = useState<
@@ -82,13 +82,13 @@ export default function FieldRadio({
   >([]);
   const compatibleValueFn = useCallback(
     CreateCompatibleValueFC(optionsDataState),
-    [optionsDataState],
+    [optionsDataState]
   );
   useEffect(() => {
     // !mark: use Promise to compatible whatever the (return of)optionData of parmas is an array or promise
     Promise.resolve(
-      optionsData instanceof Function ? optionsData(watch()) : optionsData,
-    ).then(res => {
+      optionsData instanceof Function ? optionsData(watch()) : optionsData
+    ).then((res) => {
       setOptionsDataState(res);
     });
     return () => {};
@@ -106,10 +106,10 @@ export default function FieldRadio({
       configTemp.required = false; // !mark: cause react-hook-form can't support value (boolean-false) validation, need to suppress native mandatory
       configTemp.validate = {
         ...configTemp.validate,
-        empty: data =>
-          _.some(optionsDataState, o =>
-            _.isEqual(compatibleValueFn(data), o.value),
-          ) || 'Radio cannot be empty!', // *force to change require message to unified format
+        empty: (data) =>
+          optionsDataState.some((o) =>
+            _.isEqual(compatibleValueFn(data), o.value)
+          ) || "Radio cannot be empty!", // *force to change require message to unified format
       };
     }
     return configTemp;
@@ -122,15 +122,15 @@ export default function FieldRadio({
       tips ? (
         <TipLabel required={Boolean(required)} label={label} tips={tips} />
       ) : (
-        (required ? '* ' : '') + label
+        (required ? "* " : "") + label
       ),
-    [required],
+    [required]
   );
 
   // *compatible disabled data-type
   const DisabledMemo = useMemo(
     () => (disabled instanceof Function ? disabled(watch()) : disabled),
-    [dependOnFieldsArray],
+    [dependOnFieldsArray]
   );
   useEffect(() => {
     if (DisabledMemo) clearErrors(name);
@@ -146,19 +146,19 @@ export default function FieldRadio({
   return (
     <Controller
       name={name}
-      defaultValue={defaultValue ?? ''} // !mark: in case that the default value is boolean false
+      defaultValue={defaultValue ?? ""} // !mark: in case that the default value is boolean false
       control={control}
       rules={rules}
-      render={props => {
+      render={(props) => {
         return (
           <FormControl
             component="fieldset"
             error={Boolean(errors[name])}
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
           >
             <FormLabel component="legend">{labelNode}</FormLabel>
             <Grid container justify="space-between">
-              {optionsDataState.map(o => (
+              {optionsDataState.map((o) => (
                 <FormControlLabel
                   key={String(o.value)}
                   control={
@@ -166,18 +166,21 @@ export default function FieldRadio({
                       color="primary"
                       checked={_.isEqual(
                         compatibleValueFn(props.value),
-                        o.value,
+                        o.value
                       )}
-                      value={compatibleValueFn(props.value) ?? ''}
+                      value={compatibleValueFn(props.value) ?? ""}
                       name={name}
                       autoFocus={autoFocus}
                       /** start: support cancel radio checked */
                       onClick={() => {
                         if (_.isEqual(compatibleValueFn(props.value), o.value))
-                          setValue(name, '');
+                          setValue(name, "");
                         else setValue(name, o.value);
-                        if (clearFieldsOnChange && clearFieldsOnChange instanceof Array) {
-                          clearFieldsOnChange.forEach(f => {
+                        if (
+                          clearFieldsOnChange &&
+                          clearFieldsOnChange instanceof Array
+                        ) {
+                          clearFieldsOnChange.forEach((f) => {
                             setValue(f, null);
                           });
                         }
@@ -188,7 +191,7 @@ export default function FieldRadio({
                           isKeyofInputElement(c)
                             ? { ...r, [c]: otherProps[c] }
                             : r,
-                        {},
+                        {}
                       )}
                       /** end: support cancel radio checked */
                       // onChange={() => {
@@ -208,8 +211,8 @@ export default function FieldRadio({
               ))}
             </Grid>
             <FormHelperText>
-              <span style={{ position: 'absolute' }}>
-                {errors[name] ? errors[name].message : ''}
+              <span style={{ position: "absolute" }}>
+                {errors[name] ? errors[name].message : ""}
               </span>
             </FormHelperText>
           </FormControl>

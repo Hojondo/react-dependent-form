@@ -1,3 +1,156 @@
+.so-cascader {
+  position: relative;
+  width: 100%;
+}
+.so-cascader:focus {
+  outline: none;
+}
+.so-cascader-result {
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  max-height: 105px;
+  -ms-flex-flow: wrap;
+  flex-flow: wrap;
+  padding: 6px 24px 0 12px;
+  overflow-y: auto;
+}
+.so-cascader-result .so-input-placeholder {
+  color: var(--input-placeholder-color, #999);
+}
+.so-cascader-result span,
+.so-cascader-result .so-cascader-item {
+  display: inline-block;
+  overflow: hidden;
+  max-width: 80%;
+  padding: 0 var(--select-result-padding-horizontal, 4px);
+  margin-right: var(--select-result-padding-horizontal, 4px);
+  margin-bottom: 6px;
+  border-radius: 3px;
+  color: inherit;
+  text-overflow: ellipsis;
+}
+.so-cascader-result span-compressed,
+.so-cascader-result .so-cascader-item-compressed {
+  padding: 0 8px;
+  font-size: 80%;
+  opacity: 0.9;
+}
+.so-cascader-result span-compressed > span,
+.so-cascader-result .so-cascader-item-compressed > span {
+  vertical-align: middle;
+  letter-spacing: 2px;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  max-width: none;
+}
+.so-cascader-result span:after,
+.so-cascader-result .so-cascader-item:after {
+  content: "\feff ";
+}
+.so-cascader-result .so-cascader-item {
+  background: var(--gray-100, #f8f9fa);
+}
+.so-cascader-disabled .so-cascader-result {
+  cursor: not-allowed;
+}
+.so-cascader-focus .so-cascader-close,
+.so-cascader-result:hover .so-cascader-close {
+  display: block;
+}
+.so-cascader-multiple .so-cascader-close {
+  right: 19px;
+}
+.so-cascader-options {
+  width: auto;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+}
+.so-cascader-focus .so-cascader-options {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+.so-cascader-no-data {
+  width: 100%;
+  position: relative;
+  display: block;
+  overflow: hidden;
+  padding: 6px 24px 6px 12px;
+  color: var(--gray-500, #adb5bd);
+  font-size: var(--font-size-base, 14px);
+  line-height: var(--common-line-height, 1.42857143);
+  text-overflow: ellipsis;
+  -webkit-transition: none;
+  transition: none;
+  white-space: nowrap;
+}
+.so-cascader-no-data:hover {
+  color: var(--select-item-active-color, #292d32);
+}
+.so-cascader-list {
+  display: inline-block;
+  min-width: 120px;
+  height: 100%;
+  border-right: solid 1px var(--gray-200, #e9ecef);
+  overflow-y: auto;
+  vertical-align: top;
+}
+.so-cascader-node {
+  position: relative;
+  padding: 6px 28px 6px 12px;
+  color: var(--gray-800, #343a40);
+  white-space: nowrap;
+}
+.so-cascader-node:hover {
+  background-color: #f5f5f5;
+}
+.so-cascader-node.so-cascader-disabled {
+  color: var(--gray-400, #ced4da);
+  cursor: not-allowed;
+}
+.so-cascader-node.so-cascader-disabled:hover {
+  background-color: transparent;
+}
+.so-cascader-loading {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+}
+.so-cascader-has-children .so-cascader-caret,
+.so-cascader-may-be-children .so-cascader-caret {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  -webkit-transform: translateY(-50%) rotate(-90deg);
+  -ms-transform: translateY(-50%) rotate(-90deg);
+  transform: translateY(-50%) rotate(-90deg);
+}
+.so-cascader-may-be-children .so-cascader-caret {
+  fill: var(--gray-300, #dee2e6);
+}
+.so-cascader-active {
+  background-color: var(
+    --cascader-active-background-color,
+    var(--select-item-active-bg, #f5f5f5)
+  );
+  color: var(--cascader-active-color, var(--select-item-active-color, #292d32));
+  text-decoration: none;
+}
+.so-cascader-active.so-cascader-node {
+  background-color: var(
+    --cascader-active-background-color,
+    var(--select-item-active-bg, #f5f5f5)
+  );
+  color: var(--cascader-active-color, var(--select-item-active-color, #292d32));
+}
+
 .so-cascader-overrides {
   cursor: pointer;
   min-height: 56px;
@@ -14,7 +167,7 @@
     border: 1px solid #1976d2 !important;
     box-shadow: unset !important;
     &::before {
-      content: '';
+      content: "";
       width: 100%;
       height: 100%;
       position: absolute;

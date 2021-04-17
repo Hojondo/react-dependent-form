@@ -104,9 +104,9 @@ export default function LiteFieldText({
       control={control}
       rules={rules}
       defaultValue={defaultValue ? defaultValue : ""}
-      render={props => (
+      render={(props) => (
         <StyledTexfield
-          value={props.value}
+          value={props.value ?? ""}
           multiline={multiline}
           rowsMax={rowsMax}
           fullWidth

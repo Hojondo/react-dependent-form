@@ -1,11 +1,11 @@
-import React, { useMemo, useEffect } from 'react';
-import moment, { MomentBuiltinFormat } from 'moment';
-import { Controller } from 'react-hook-form';
-import { TextField } from '@material-ui/core';
-import { useFormContext } from './FormContext';
-import TipLabel from './components/TipLabel';
+import React, { useMemo, useEffect } from "react";
+import moment, { MomentBuiltinFormat } from "moment";
+import { Controller } from "react-hook-form";
+import { TextField } from "@material-ui/core";
+import { useFormContext } from "./FormContext";
+import TipLabel from "./components/TipLabel";
 
-import { RegisterType, ExcludeKeys } from './types';
+import { RegisterType, ExcludeKeys } from "./types";
 
 // const isISO = (input: any): input is ISOTimeFormat =>
 //   moment(input, moment.ISO_8601, true).isValid()
@@ -31,7 +31,7 @@ export default function FieldDateTimePicker({
   autoFocus = false,
   label,
   defaultValue,
-  placeholder = 'Search',
+  placeholder = "Search",
   registerConfig,
   tips,
   clearFieldsOnChange,
@@ -49,14 +49,14 @@ export default function FieldDateTimePicker({
 
   // *define Fields-value Array depend on special fields' value
   const dependOnFieldsArray = useMemo(
-    () => (dependOnFields ? dependOnFields.map(f => watch()[f]) : undefined),
-    [watch()],
+    () => (dependOnFields ? dependOnFields.map((f) => watch()[f]) : undefined),
+    [watch()]
   );
 
   // *compatible disabled data-type
   const DisabledMemo = useMemo(
     () => (disabled instanceof Function ? disabled(watch()) : disabled),
-    [dependOnFieldsArray],
+    [dependOnFieldsArray]
   );
   useEffect(() => {
     if (DisabledMemo) clearErrors(name);
@@ -70,7 +70,7 @@ export default function FieldDateTimePicker({
         ? registerConfig(watch())
         : registerConfig),
     }),
-    [registerConfig, watch()],
+    [registerConfig, watch()]
   );
 
   // *set Label
@@ -80,9 +80,9 @@ export default function FieldDateTimePicker({
       tips ? (
         <TipLabel required={Boolean(required)} label={label} tips={tips} />
       ) : (
-        (required ? '* ' : '') + label
+        (required ? "* " : "") + label
       ),
-    [required],
+    [required]
   );
 
   // *register config
@@ -96,33 +96,34 @@ export default function FieldDateTimePicker({
       control={control}
       name={name}
       rules={rules}
-      defaultValue={defaultValue ?? ''}
-      render={props => (
+      defaultValue={defaultValue ?? ""}
+      render={(props) => (
         <TextField
+          fullWidth
           label={labelNode}
-          value={props.value}
+          value={props.value ?? ""}
           disabled={DisabledMemo}
           placeholder={placeholder}
           type="datetime-local"
           autoFocus={autoFocus}
           error={Boolean(errors[name])}
           helperText={
-            <span style={{ position: 'absolute' }}>
-              {errors[name] ? errors[name].message : ''}
+            <span style={{ position: "absolute" }}>
+              {errors[name] ? errors[name].message : ""}
             </span>
           }
           InputLabelProps={{
             shrink: true,
           }}
           variant="outlined"
-          onChange={e => {
+          onChange={(e) => {
             console.log(e.target.value);
             setValue(
               name,
-              moment.utc(e.target.value).format('YYYY-MM-DDTHH:mm'),
+              moment.utc(e.target.value).format("YYYY-MM-DDTHH:mm")
             );
             if (clearFieldsOnChange && clearFieldsOnChange instanceof Array) {
-              clearFieldsOnChange.forEach(f => {
+              clearFieldsOnChange.forEach((f) => {
                 setValue(f, null);
               });
             }

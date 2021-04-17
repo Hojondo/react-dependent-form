@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo } from 'react';
-import { TextField, IconButton } from '@material-ui/core';
-import { useFormContext } from './FormContext';
-import { Controller } from 'react-hook-form';
-import { Close as CloseIcon } from '@material-ui/icons';
-import TipLabel from './components/TipLabel';
+import React, { useEffect, useMemo } from "react";
+import { TextField, IconButton } from "@material-ui/core";
+import { useFormContext } from "./FormContext";
+import { Controller } from "react-hook-form";
+import { Close as CloseIcon } from "@material-ui/icons";
+import TipLabel from "./components/TipLabel";
 
-import { RegisterType, ExcludeKeys } from './types';
+import { RegisterType, ExcludeKeys } from "./types";
 
 // string: `${number}${number}${number}${number}-${number}${number}-${number}${number}`
 type ValueFormat = string | null;
@@ -27,7 +27,7 @@ export default function FiledDatePicker({
   name,
   disabled,
   label,
-  placeholder = 'Search',
+  placeholder = "Search",
   defaultValue,
   registerConfig,
   tips,
@@ -46,8 +46,8 @@ export default function FiledDatePicker({
 
   // *define Fields-value Array depend on special fields' value
   const dependOnFieldsArray = useMemo(
-    () => (dependOnFields ? dependOnFields.map(f => watch()[f]) : undefined),
-    [watch()],
+    () => (dependOnFields ? dependOnFields.map((f) => watch()[f]) : undefined),
+    [watch()]
   );
 
   const uploadNewDate = (date: ValueFormat) => {
@@ -58,7 +58,7 @@ export default function FiledDatePicker({
   // *compatible disabled data-type
   const DisabledMemo = useMemo(
     () => (disabled instanceof Function ? disabled(watch()) : disabled),
-    [dependOnFieldsArray],
+    [dependOnFieldsArray]
   );
   useEffect(() => {
     if (DisabledMemo) clearErrors(name);
@@ -72,7 +72,7 @@ export default function FiledDatePicker({
         ? registerConfig(watch())
         : registerConfig),
     }),
-    [registerConfig, watch()],
+    [registerConfig, watch()]
   );
 
   // *set Label
@@ -82,9 +82,9 @@ export default function FiledDatePicker({
       tips ? (
         <TipLabel required={Boolean(required)} label={label} tips={tips} />
       ) : (
-        (required ? '* ' : '') + label
+        (required ? "* " : "") + label
       ),
-    [required],
+    [required]
   );
 
   // *register config
@@ -98,29 +98,30 @@ export default function FiledDatePicker({
       control={control}
       name={name}
       rules={rules}
-      defaultValue={defaultValue ?? ''}
-      render={props => {
+      defaultValue={defaultValue ?? ""}
+      render={(props) => {
         return (
           <TextField
+            fullWidth
             label={labelNode}
             placeholder={placeholder}
             type="date"
             variant="outlined"
-            value={props.value ?? ''}
+            value={props.value ?? ""}
             error={Boolean(errors[name])}
             helperText={
-              <span style={{ position: 'absolute' }}>
-                {errors[name] ? errors[name].message : ''}
+              <span style={{ position: "absolute" }}>
+                {errors[name] ? errors[name].message : ""}
               </span>
             }
             disabled={DisabledMemo}
             InputLabelProps={{
               shrink: true,
             }}
-            onChange={e => {
+            onChange={(e) => {
               uploadNewDate(e.target.value as ValueFormat);
               if (clearFieldsOnChange && clearFieldsOnChange instanceof Array) {
-                clearFieldsOnChange.forEach(f => {
+                clearFieldsOnChange.forEach((f) => {
                   setValue(f, null);
                 });
               }
@@ -128,7 +129,7 @@ export default function FiledDatePicker({
             InputProps={{
               endAdornment: (
                 <IconButton
-                  onClick={e => {
+                  onClick={(e) => {
                     uploadNewDate(null);
                   }}
                   disabled={DisabledMemo}

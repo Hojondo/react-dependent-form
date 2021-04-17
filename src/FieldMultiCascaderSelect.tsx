@@ -123,6 +123,7 @@ export default function FieldMultiCascaderSelect({
       (r: OptionDataObj[], c) => [...r, c, ...(c.children ?? [])],
       [],
     ); // 2 level-mode nested array
+    // todo: support recursion
 
   const uploadNewData = (valueArray: validValue[], selected?: boolean) => {
     setValue(

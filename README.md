@@ -1,24 +1,28 @@
 # A form component of react
 
-## includes
+## Features
 - Text Field
 - AutoInput Field
 - Multiple AutoInput Field
-
 - Select Field
-- Cascader Select Field
-
+- ~~Cascader Select Field~~ [todo]
 - Radio Field
-
+- Checkbox
 - DatePicker
 - DateRangePicker
 - DateTimePicker
 
-## use
-> - react
-> - material-ui
-> - typescript
-> - jest & enzyme
-> - rollup
-> - react-hook-form
-> - react-dates
+## Install
+`npm install react-dependent-form`
+
+## How to use
+
+
+## Reference
+> - React
+> - Material-ui
+> - Typescript
+> - Jest & enzyme
+> - Rollup
+> - React-hook-form
+> - React-dates

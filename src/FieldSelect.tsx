@@ -1,16 +1,16 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import _ from 'lodash';
-import { TextField, MenuItem } from '@material-ui/core';
-import { Controller } from 'react-hook-form';
+import React, { useEffect, useState, useMemo, useCallback } from "react";
+import _ from "lodash";
+import { TextField, MenuItem } from "@material-ui/core";
+import { Controller } from "react-hook-form";
 
-import { useFormContext } from './FormContext';
-import TipLabel from './components/TipLabel';
+import { useFormContext } from "./FormContext";
+import TipLabel from "./components/TipLabel";
 import {
   OptionDataObj,
   OptionDataType,
   RegisterType,
   ExcludeKeys,
-} from './types';
+} from "./types";
 
 type ValueFormat = string | number | boolean | readonly string[] | undefined;
 
@@ -29,17 +29,17 @@ interface SelectProps
 }
 
 const CreateCompatibleValueFC = (optionsObj: Array<OptionDataObj>) => (
-  val: string | OptionDataObj | boolean,
+  val: string | OptionDataObj | boolean
 ) => {
-  return typeof val === 'string' || typeof val === 'boolean'
+  return typeof val === "string" || typeof val === "boolean"
     ? val
-    : val && optionsObj.find(o => o.value === val.value)?.value;
+    : val && optionsObj.find((o) => o.value === val.value)?.value;
 };
 
 export default function QueryFieldSelect({
   name,
   label,
-  placeholder = 'Select',
+  placeholder = "Select",
   tips,
   optionsData = [],
   defaultValue,
@@ -66,8 +66,8 @@ export default function QueryFieldSelect({
 
   // *get options data depend on special fields' value
   const dependOnFieldsArray = useMemo(
-    () => (dependOnFields ? dependOnFields.map(f => watch()[f]) : null),
-    [watch()],
+    () => (dependOnFields ? dependOnFields.map((f) => watch()[f]) : null),
+    [watch()]
   );
 
   // todo fix the warning in devtool when get async option after component-rendered
@@ -76,13 +76,13 @@ export default function QueryFieldSelect({
   >([]);
   const compatibleValueFn = useCallback(
     CreateCompatibleValueFC(optionsDataState),
-    [optionsDataState],
+    [optionsDataState]
   );
   useEffect(() => {
     // !mark: use Promise to compatible whatever the (return of)optionData of parmas is an array or promise
     Promise.resolve(
-      optionsData instanceof Function ? optionsData(watch()) : optionsData,
-    ).then(res => {
+      optionsData instanceof Function ? optionsData(watch()) : optionsData
+    ).then((res) => {
       setOptionsDataState(res);
     });
     return () => {};
@@ -99,10 +99,10 @@ export default function QueryFieldSelect({
       configTemp.required = false; // !mark: cause react-hook-form can't support value (boolean-false) validation, need to suppress native mandatory
       configTemp.validate = {
         ...configTemp.validate,
-        empty: data =>
-          _.some(optionsDataState, o =>
-            _.isEqual(compatibleValueFn(data), o.value),
-          ) || 'Select cannot be empty!', // *force to change require message to unified format
+        empty: (data) =>
+          optionsDataState.some((o) =>
+            _.isEqual(compatibleValueFn(data), o.value)
+          ) || "Select cannot be empty!", // *force to change require message to unified format
       };
     }
     return configTemp;
@@ -115,15 +115,15 @@ export default function QueryFieldSelect({
       tips ? (
         <TipLabel required={Boolean(required)} label={label} tips={tips} />
       ) : (
-        (required ? '* ' : '') + label
+        (required ? "* " : "") + label
       ),
-    [required],
+    [required]
   );
 
   // *compatible disabled data-type
   const DisabledMemo = useMemo(
     () => (disabled instanceof Function ? disabled(watch()) : disabled),
-    [dependOnFieldsArray],
+    [dependOnFieldsArray]
   );
   useEffect(() => {
     if (DisabledMemo) clearErrors(name);
@@ -137,14 +137,14 @@ export default function QueryFieldSelect({
   ]);
   return (
     <Controller
-      defaultValue={defaultValue ?? ''}
+      defaultValue={defaultValue ?? ""}
       control={control}
       name={name}
       rules={rules}
-      render={props => {
+      render={(props) => {
         return (
           <TextField
-            value={compatibleValueFn(props.value) ?? ''}
+            value={compatibleValueFn(props.value) ?? ""}
             fullWidth
             select
             name={name}
@@ -152,10 +152,10 @@ export default function QueryFieldSelect({
             label={labelNode}
             autoFocus={autoFocus}
             variant="outlined"
-            onChange={e => {
+            onChange={(e) => {
               setValue(name, e.target.value);
               if (clearFieldsOnChange && clearFieldsOnChange instanceof Array) {
-                clearFieldsOnChange.forEach(f => {
+                clearFieldsOnChange.forEach((f) => {
                   setValue(f, null);
                 });
               }
@@ -163,19 +163,19 @@ export default function QueryFieldSelect({
             }}
             error={Boolean(errors[name])}
             helperText={
-              <span style={{ position: 'absolute' }}>
-                {errors[name] ? errors[name].message : ''}
+              <span style={{ position: "absolute" }}>
+                {errors[name] ? errors[name].message : ""}
               </span>
             }
             InputLabelProps={{ shrink: true }} //!mark: aim to show a placeholder like text-input
             SelectProps={{
               displayEmpty: true,
-              renderValue: value => {
-                if (optionsDataState.map(o => o.value).includes(value as any))
-                  return optionsDataState.find(o => o.value === value)?.label;
+              renderValue: (value) => {
+                if (optionsDataState.map((o) => o.value).includes(value as any))
+                  return optionsDataState.find((o) => o.value === value)?.label;
                 else
                   return (
-                    <span style={{ color: 'rgba(0, 0, 0, 0.42)' }}>
+                    <span style={{ color: "rgba(0, 0, 0, 0.42)" }}>
                       {placeholder}
                     </span>
                   ); //!mark: aim to show a placeholder like text-input
@@ -184,10 +184,10 @@ export default function QueryFieldSelect({
             inputProps={Object.keys(otherProps).reduce(
               (r, c) =>
                 isKeyofInputElement(c) ? { ...r, [c]: otherProps[c] } : r,
-              {},
+              {}
             )}
           >
-            {_.sortBy(optionsDataState, o => o.label).map(o => (
+            {_.sortBy(optionsDataState, (o) => o.label).map((o) => (
               <MenuItem
                 key={String(o.value)}
                 // @ts-ignore [1]

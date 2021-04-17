@@ -108,7 +108,7 @@ export default function FieldAutoInput({
       configTemp.validate = {
         ...configTemp.validate,
         empty: (data) =>
-          _.some(optionsDataState, (o) => _.isEqual(data, o.value)) ||
+          optionsDataState.some((o) => _.isEqual(data, o.value)) ||
           "Input cannot be empty!", // *force to change require message to unified format
       };
     }
@@ -154,7 +154,8 @@ export default function FieldAutoInput({
           <Autocomplete
             freeSolo={freeSolo}
             multiple={multiple}
-            value={props.value}
+            fullWidth
+            value={props.value ?? (multiple ? [] : "")}
             disabled={DisabledMemo}
             options={_.sortBy(optionsDataState, (o) => o.label).map(
               (o) => o.value
