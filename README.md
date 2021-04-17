@@ -16,7 +16,8 @@
 `npm install react-dependent-form`
 
 ## Demo
-
+[codesandbox.io](https://codesandbox.io/s/react-dependent-form-demo-bkjn4)
+![Screen Shot.png](https://i.loli.net/2021/04/17/GqL3xm2M9pcVgRy.png)
 ## How to use
 ```js
 import React, { useState } from "react";
