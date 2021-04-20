@@ -15,10 +15,14 @@
 ## Install
 `npm install react-dependent-form`
 
-## Demo
-[codesandbox.io](https://codesandbox.io/s/react-dependent-form-demo-bkjn4)
+
 ![Screen Shot.png](https://i.loli.net/2021/04/17/GqL3xm2M9pcVgRy.png)
-## How to use
+
+## Links
+- [API](https://hojondo.com/react-dependent-form/)
+- [Demo](https://codesandbox.io/s/react-dependent-form-demo-bkjn4)
+
+## Quickstart
 ```js
 import React, { useState } from "react";
 import {
@@ -35,6 +39,9 @@ import {
   FormSubmitBtn,
 } from "react-dependent-form";
 
+const Get_Options_by_Input = (targetField, InputValue) =>
+  axios.get("xxxx", { params: { targetField, InputValue } });
+
 const mockOption = [
   { value: "1", label: "1" },
   { value: "2", label: "2" },
@@ -48,11 +55,20 @@ function App() {
           setformValues(vals);
         }}
       >
-        <FieldText name="input" label="Field Text" tips="tips" />
+        <FieldText
+          name="input"
+          label="Field Text"
+          tips="tips"
+          //   clearFieldsOnChange={["autoInput"]} optional
+        />
         <FieldAutoInput
           name="autoInput"
           label="AutoInput"
-          optionsData={mockOption}
+          optionsData={async (record) => {
+            const res = await Get_Options_by_Input("autoInput", record.input);
+            return res.data;
+          }}
+          dependOnFields={["input"]}
           tips="sss"
         />
         <FieldAutoInput
@@ -91,7 +107,7 @@ function App() {
         </div>
       </Form>
       <div style={{ marginTop: "5rem" }}>
-        <h3>Submit Results: </h3>
+        <h3>Submitted Results: </h3>
         <pre>{JSON.stringify(formValues).replaceAll(",", "\n")}</pre>
       </div>
     </div>
@@ -103,9 +119,9 @@ export default App;
 
 ## Reference
 > - React
-> - Material-ui
 > - Typescript
 > - Jest & enzyme
 > - Rollup
+> - Material-ui
 > - React-hook-form
 > - React-dates
