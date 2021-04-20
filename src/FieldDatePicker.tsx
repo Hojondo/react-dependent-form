@@ -46,7 +46,10 @@ export default function FiledDatePicker({
 
   // *define Fields-value Array depend on special fields' value
   const dependOnFieldsArray = useMemo(
-    () => (dependOnFields ? dependOnFields.map((f) => watch()[f]) : undefined),
+    () =>
+      dependOnFields
+        ? JSON.stringify(dependOnFields.map((f) => watch()[f]))
+        : null,
     [watch()]
   );
 

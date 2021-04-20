@@ -49,7 +49,10 @@ export default function FieldDateTimePicker({
 
   // *define Fields-value Array depend on special fields' value
   const dependOnFieldsArray = useMemo(
-    () => (dependOnFields ? dependOnFields.map((f) => watch()[f]) : undefined),
+    () =>
+      dependOnFields
+        ? JSON.stringify(dependOnFields.map((f) => watch()[f]))
+        : null,
     [watch()]
   );
 
@@ -117,7 +120,6 @@ export default function FieldDateTimePicker({
           }}
           variant="outlined"
           onChange={(e) => {
-            console.log(e.target.value);
             setValue(
               name,
               moment.utc(e.target.value).format("YYYY-MM-DDTHH:mm")

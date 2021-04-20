@@ -52,7 +52,7 @@ export default function FieldAutoInput({
   name,
   label,
   multiple = false,
-  freeSolo = true,
+  freeSolo = false,
   optionsData,
   defaultValue,
   disabled,
@@ -63,6 +63,7 @@ export default function FieldAutoInput({
   dependOnFields,
   ...otherProps
 }: SelectProps) {
+  multiple = freeSolo ? false : multiple; // disable multiple if freeSolo
   const {
     watch,
     errors,
@@ -74,7 +75,10 @@ export default function FieldAutoInput({
 
   // *get options data depend on special fields' value
   const dependOnFieldsArray = useMemo(
-    () => (dependOnFields ? dependOnFields.map((f) => watch()[f]) : null),
+    () =>
+      dependOnFields
+        ? JSON.stringify(dependOnFields.map((f) => watch()[f]))
+        : null,
     [watch()]
   );
 
@@ -90,7 +94,7 @@ export default function FieldAutoInput({
     Promise.resolve(
       optionsData instanceof Function ? optionsData(watch()) : optionsData
     ).then((res) => {
-      setOptionsDataState(res);
+      setOptionsDataState(res ?? []);
     });
     return () => {};
   }, [dependOnFieldsArray]);
@@ -108,7 +112,7 @@ export default function FieldAutoInput({
       configTemp.validate = {
         ...configTemp.validate,
         empty: (data) =>
-          optionsDataState.some((o) => _.isEqual(data, o.value)) ||
+          optionsDataState?.some((o) => _.isEqual(data, o.value)) ||
           "Input cannot be empty!", // *force to change require message to unified format
       };
     }
@@ -155,15 +159,13 @@ export default function FieldAutoInput({
             freeSolo={freeSolo}
             multiple={multiple}
             fullWidth
-            value={props.value ?? (multiple ? [] : "")}
+            value={props.value ?? (multiple ? [] : null)}
             disabled={DisabledMemo}
             options={_.sortBy(optionsDataState, (o) => o.label).map(
               (o) => o.value
             )}
             filterSelectedOptions
             onChange={(e, v, reason) => {
-              console.log(v, reason);
-
               setValue(name, v);
               if (clearFieldsOnChange && clearFieldsOnChange instanceof Array) {
                 clearFieldsOnChange.forEach((f) => {
@@ -173,9 +175,13 @@ export default function FieldAutoInput({
               trigger(name);
               dependOnFields && clearErrors(dependOnFields); // *in case for situation like two fields can't be same
             }}
-            onInputChange={(e, v) => {
-              setValue(name, v);
-            }}
+            onInputChange={
+              freeSolo
+                ? (e, v) => {
+                    setValue(name, v);
+                  }
+                : undefined
+            }
             renderInput={(params) => {
               return (
                 <StyledTextField

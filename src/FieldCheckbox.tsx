@@ -25,8 +25,6 @@ interface CheckboxProps
   dependOnFields?: string[];
 }
 
-
-
 export default function FieldCheckbox({
   name,
   label,
@@ -46,7 +44,10 @@ export default function FieldCheckbox({
   const { watch, errors, setValue, control, clearErrors } = useFormContext();
   // *get options data depend on special fields' value
   const dependOnFieldsArray = useMemo(
-    () => (dependOnFields ? dependOnFields.map((f) => watch()[f]) : null),
+    () =>
+      dependOnFields
+        ? JSON.stringify(dependOnFields.map((f) => watch()[f]))
+        : null,
     [watch()]
   );
 

@@ -66,7 +66,10 @@ export default function QueryFieldSelect({
 
   // *get options data depend on special fields' value
   const dependOnFieldsArray = useMemo(
-    () => (dependOnFields ? dependOnFields.map((f) => watch()[f]) : null),
+    () =>
+      dependOnFields
+        ? JSON.stringify(dependOnFields.map((f) => watch()[f]))
+        : null,
     [watch()]
   );
 
@@ -83,7 +86,7 @@ export default function QueryFieldSelect({
     Promise.resolve(
       optionsData instanceof Function ? optionsData(watch()) : optionsData
     ).then((res) => {
-      setOptionsDataState(res);
+      setOptionsDataState(res ?? []);
     });
     return () => {};
   }, [dependOnFieldsArray, optionsData, watch()]);
@@ -100,7 +103,7 @@ export default function QueryFieldSelect({
       configTemp.validate = {
         ...configTemp.validate,
         empty: (data) =>
-          optionsDataState.some((o) =>
+          optionsDataState?.some((o) =>
             _.isEqual(compatibleValueFn(data), o.value)
           ) || "Select cannot be empty!", // *force to change require message to unified format
       };

@@ -1,15 +1,15 @@
-import React, { useState, useMemo, useEffect, useCallback } from 'react';
-import { Chip } from '@material-ui/core';
-import { Cascader } from 'shineout';
-import './css/so-cascader-overrides.less';
+import React, { useState, useMemo, useEffect, useCallback } from "react";
+import { Chip } from "@material-ui/core";
+import { Cascader } from "shineout";
+import "./css/so-cascader-overrides.less";
 
-import { useFormContext } from './FormContext';
-import { Controller } from 'react-hook-form';
-import { FormControl, FormHelperText } from '@material-ui/core';
-import TipLabel from './components/TipLabel';
-import StyledFormLabel from './components/StyledFormLabel';
+import { useFormContext } from "./FormContext";
+import { Controller } from "react-hook-form";
+import { FormControl, FormHelperText } from "@material-ui/core";
+import TipLabel from "./components/TipLabel";
+import StyledFormLabel from "./components/StyledFormLabel";
 
-import { RegisterType, ExcludeKeys } from './types';
+import { RegisterType, ExcludeKeys } from "./types";
 
 type validValue = string | boolean | number | bigint;
 
@@ -41,7 +41,7 @@ export default function FieldMultiCascaderSelect({
   name,
   label,
   tips,
-  placeholder = 'Select',
+  placeholder = "Select",
   disabled,
   optionsData,
   defaultValue,
@@ -61,8 +61,11 @@ export default function FieldMultiCascaderSelect({
 
   // *get options data depend on special fields' value
   const dependOnFieldsArray = useMemo(
-    () => (dependOnFields ? dependOnFields.map(f => watch()[f]) : null),
-    [watch()],
+    () =>
+      dependOnFields
+        ? JSON.stringify(dependOnFields.map((f) => watch()[f]))
+        : null,
+    [watch()]
   );
 
   // todo fix the warning in devtool when get async option after component-rendered
@@ -73,8 +76,8 @@ export default function FieldMultiCascaderSelect({
   useEffect(() => {
     // !mark: use Promise to compatible whatever the (return of)optionData of parmas is an array or promise
     Promise.resolve(
-      optionsData instanceof Function ? optionsData(watch()) : optionsData,
-    ).then(res => {
+      optionsData instanceof Function ? optionsData(watch()) : optionsData
+    ).then((res) => {
       setOptionsDataState(res);
     });
     return () => {};
@@ -97,15 +100,15 @@ export default function FieldMultiCascaderSelect({
       tips ? (
         <TipLabel required={Boolean(required)} label={label} tips={tips} />
       ) : (
-        (required ? '* ' : '') + label
+        (required ? "* " : "") + label
       ),
-    [required],
+    [required]
   );
 
   // *compatible disabled data-type
   const DisabledMemo = useMemo(
     () => (disabled instanceof Function ? disabled(watch()) : disabled),
-    [dependOnFieldsArray],
+    [dependOnFieldsArray]
   );
   useEffect(() => {
     if (DisabledMemo) clearErrors(name);
@@ -121,19 +124,19 @@ export default function FieldMultiCascaderSelect({
   const flattenNestArray = (nestedArray: OptionDataObj[]) =>
     nestedArray.reduce(
       (r: OptionDataObj[], c) => [...r, c, ...(c.children ?? [])],
-      [],
+      []
     ); // 2 level-mode nested array
-    // todo: support recursion
+  // todo: support recursion
 
   const uploadNewData = (valueArray: validValue[], selected?: boolean) => {
     setValue(
       name,
       flattenNestArray(optionsDataState)
-        .filter(i => valueArray.includes(i.value))
-        .map(i => i.value),
+        .filter((i) => valueArray.includes(i.value))
+        .map((i) => i.value)
     );
     if (clearFieldsOnChange && clearFieldsOnChange instanceof Array) {
-      clearFieldsOnChange.forEach(f => {
+      clearFieldsOnChange.forEach((f) => {
         setValue(f, null);
       });
     }
@@ -146,14 +149,12 @@ export default function FieldMultiCascaderSelect({
       name={name}
       defaultValue={defaultValue ?? []}
       rules={rules}
-      render={props => {
-        console.log(props.value);
-
+      render={(props) => {
         return (
           <FormControl
             component="fieldset"
             error={Boolean(errors[name])}
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
           >
             {/* @ts-ignore[1] */}
             <StyledFormLabel component="legend">{labelNode}</StyledFormLabel>
@@ -171,13 +172,11 @@ export default function FieldMultiCascaderSelect({
                 onChange={uploadNewData}
                 renderItem={({ label }) => label}
                 renderResult={({ label }) => {
-                  console.log(label);
-
                   return (
                     <Chip
                       key={label}
                       label={label}
-                      style={{ cursor: 'pointer' }}
+                      style={{ cursor: "pointer" }}
                     />
                   );
                 }}
@@ -186,8 +185,8 @@ export default function FieldMultiCascaderSelect({
               />
             ) : null}
             <FormHelperText>
-              <span style={{ position: 'absolute' }}>
-                {errors[name] ? errors[name].message : ''}
+              <span style={{ position: "absolute" }}>
+                {errors[name] ? errors[name].message : ""}
               </span>
             </FormHelperText>
           </FormControl>
