@@ -123,7 +123,7 @@ export default function FieldMultiCascaderSelect({
 
   const flattenNestArray = (nestedArray: OptionDataObj[]) =>
     nestedArray.reduce(
-      (r: OptionDataObj[], c) => [...r, c, ...(c.children ?? [])],
+      (r: OptionDataObj[], c) => [...r, c, ...(c.children ?? [])], // in case for option item without children
       []
     ); // 2 level-mode nested array
   // todo: support recursion
