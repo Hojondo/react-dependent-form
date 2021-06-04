@@ -175,7 +175,7 @@ export default function QueryFieldSelect({
               displayEmpty: true,
               renderValue: (value) => {
                 if (optionsDataState.map((o) => o.value).includes(value as any))
-                  return optionsDataState.find((o) => o.value === value)?.label;
+                  return optionsDataState.find((o) => o.value === value)?.label; // todo: value to be compatible with multiple types likt string/number
                 else
                   return (
                     <span style={{ color: "rgba(0, 0, 0, 0.42)" }}>
